@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Generador de Flores</title>
+<style>
+  #flor-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .flor {
+    position: absolute;
+    animation: aparecer 1s ease-out, desaparecer 1s ease-out 4s;
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes desaparecer {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+    to {
+      opacity: 0;
+      transform: scale(0.5);
+    }
+  }
+</style>
+</head>
+<body>
+
+<button id="generar-flor">Generar Flor</button>
+
+<div id="flor-container"></div>
+
+<script>
+  const generarFlorBtn = document.getElementById('generar-flor');
+  const florContainer = document.getElementById('flor-container');
+
+  generarFlorBtn.addEventListener('click', () => {
+    generarFlor();
+  });
+
+  function generarFlor() {
+    // Crea un elemento SVG para la flor
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('width', '200');
+    svg.setAttribute('height', '200');
+    svg.classList.add('flor');
+
+    // Posiciona la flor aleatoriamente en la pantalla
+    const x = Math.random() * (window.innerWidth - 200);
+    const y = Math.random() * (window.innerHeight - 200);
+    svg.style.left = `${x}px`;
+    svg.style.top = `${y}px`;
+
+    // Dibuja los pétalos de la flor (círculos)
+    for (let i = 0; i < 6; i++) {
+      const petal = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      const angle = (Math.PI * 2 / 6) * i;
+      const x = 100 + Math.cos(angle) * 50;
+      const y = 100 + Math.sin(angle) * 50;
+      petal.setAttribute('cx', x);
+      petal.setAttribute('cy', y);
+      petal.setAttribute('r', 30);
+      petal.setAttribute('fill', 'yellow');
+      svg.appendChild(petal);
+    }
+
+    // Dibuja el centro de la flor (círculo)
+    const center = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    center.setAttribute('cx', 100);
+    center.setAttribute('cy', 100);
+    center.setAttribute('r', 20);
+    center.setAttribute('fill', 'brown');
+    svg.appendChild(center);
+    
+    // Dibuja el centro de la flor (círculo)
+    const centro = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    centro.setAttribute('cx', 100);
+    centro.setAttribute('cy', 100);
+    centro.setAttribute('r', 15);
+    centro.setAttribute('fill', 'black');
+    svg.appendChild(centro);
+
+    // Agrega el SVG al contenedor
+    florContainer.appendChild(svg);
+
+    // Elimina la flor después de la animación de desaparición
+    setTimeout(() => {
+      svg.remove();
+    }, 5000); // 5 segundos (1s de aparición + 4s de espera + 1s de desaparición)
+  }
+</script>
+
+</body>
+</html>
